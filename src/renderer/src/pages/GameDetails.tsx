@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Plus, X } from 'lucide-react'
+import { Pause, Play, Plus, X } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { SteamAppDetails } from '@types'
 import { steamUrlBuilder } from '@shared'
@@ -11,6 +11,32 @@ function GameDetails() {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [inLibrary, setInLibrary] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const startGame = async () => {
+    try {
+      await window.api.launchGame(
+        'E:\\Evan\\Dev\\game-launcher-v4\\dist\\win-unpacked\\game-launcher-v.exe'
+      )
+      setIsPlaying(true)
+    } catch (error) {
+      console.error(error)
+      setIsPlaying(false)
+    }
+  }
+
+  const stopGame = async () => {
+    await window.api.closeGame()
+    setIsPlaying(false)
+  }
+
+  useEffect(() => {
+    const handleGameStopped = () => setIsPlaying(false)
+    window.api.isGameRunning().then(setIsPlaying)
+
+    window.api.on('game-stopped', handleGameStopped)
+    return () => window.api.off('game-stopped', handleGameStopped)
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,19 +80,38 @@ function GameDetails() {
               src={steamUrlBuilder.libraryHero(appId.toString())}
             ></img>
             <div className="bg-gradient-to-b from-transparent to-black h-[75%] bottom-0 absolute left-0 right-0"></div>
-            <div className="absolute left-0 flex flex-row gap-2 m-4 bottom-0 items-end justify-between w-full">
+            <div className="absolute left-0 flex flex-row gap-2 m-4 bottom-0 items-end w-full">
               <img
                 draggable="false"
                 className="select-none w-25% max-w-[25%]"
                 alt={details.name}
                 src={steamUrlBuilder.logo(appId.toString())}
               ></img>
+              <div className="w-full"></div>
+              <button
+                className={`font-semibold mr-2 min-w-[115px] h-fit whitespace-nowrap text-sm sm:text-base flex gap-1 items-center justify-center ${isPlaying ? 'bg-zinc-500 hover:bg-red-800' : 'bg-blue-600 hover:bg-blue-800'} text-white p-3 rounded-md active:scale-[0.98] duration-100 transition-all will-change-transform`}
+                onClick={() => {
+                  if (isPlaying) {
+                    stopGame()
+                  } else {
+                    startGame()
+                  }
+                }}
+              >
+                {!isPlaying ? (
+                  <>Launch Game</>
+                ) : (
+                  <>
+                    <X></X>Running
+                  </>
+                )}
+              </button>
               <button
                 onClick={() => {
                   window.api.saveLibrary({ name: details.name, steam_appid: details.steam_appid })
                   setInLibrary(!inLibrary)
                 }}
-                className=" mr-8 h-fit whitespace-nowrap text-sm sm:text-base flex gap-1 items-center justify-center bg-zinc-900/50 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform"
+                className=" mr-8 min-w-[156px] h-fit whitespace-nowrap text-sm sm:text-base flex gap-1 items-center justify-center bg-zinc-900/50 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform"
               >
                 {!inLibrary ? (
                   <>

@@ -5,10 +5,13 @@ import icon from '../../resources/icon.png'
 import steamSearch, { getSteamGameInfo } from './steamApi'
 import { Game } from '@types'
 import { addToLibrary, getLibrary, isInLibrary } from './SaveData'
+import { closeGame, isGameRunning, launchGame } from './process'
+
+let mainWindow: BrowserWindow
 
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1000,
     height: 600,
     minWidth: 1000,
@@ -119,4 +122,16 @@ ipcMain.handle('get-library', (_event) => {
 
 ipcMain.handle('is-in-library', (_event, appId: number) => {
   return isInLibrary(appId)
+})
+
+ipcMain.handle('launch-game', async (_, gamePath: string) => {
+  launchGame(gamePath, mainWindow)
+})
+
+ipcMain.handle('close-game', () => {
+  closeGame()
+})
+
+ipcMain.handle('is-game-running', () => {
+  return isGameRunning()
 })

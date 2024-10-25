@@ -1,19 +1,20 @@
-import { Game, SteamAppDetails } from '@types'
+import { Game } from '@types'
 
 declare global {
   interface Window {
     api: {
       steamSearch: (query: string) => Promise<Game[]>
-      steamDetails: (appId: number) => Promise<SteamAppDetails>
-      getLibrary: () => Game[]
-      saveLibrary: (game: Game) => {}
+      steamDetails: (appId: number) => Promise<any>
+      saveLibrary: (game: Game) => Promise<void>
+      getLibrary: () => Promise<Game[]>
       isInLibrary: (appId: number) => Promise<boolean>
+      launchGame: (gamePath: string) => Promise<void>
+      closeGame: () => Promise<void>
+      isGameRunning: () => Promise<boolean>
+      on: (channel: string, listener: (...args: any[]) => void) => void
+      off: (channel: string, listener: (...args: any[]) => void) => void
     }
-    electron: {
-      ipcRenderer: {
-        send: (channel: string, data?: any) => void
-      }
-    }
+    electron: typeof import('@electron-toolkit/preload').electronAPI
   }
 }
 

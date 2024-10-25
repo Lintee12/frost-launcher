@@ -18,6 +18,16 @@ const api = {
   },
   isInLibrary: (appId: number) => {
     return ipcRenderer.invoke('is-in-library', appId)
+  },
+  launchGame: (gamePath: string) => ipcRenderer.invoke('launch-game', gamePath),
+  closeGame: () => ipcRenderer.invoke('close-game'),
+  isGameRunning: () => ipcRenderer.invoke('is-game-running'),
+
+  on: (channel: string, listener: (...args: any[]) => void) => {
+    ipcRenderer.on(channel, listener)
+  },
+  off: (channel: string, listener: (...args: any[]) => void) => {
+    ipcRenderer.removeListener(channel, listener)
   }
 }
 
