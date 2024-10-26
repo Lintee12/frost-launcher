@@ -16,6 +16,7 @@ type ApiFunctions = {
   getTimePlayed: ApiFunction
   getFilePath: ApiFunction
   setFilePath: ApiFunction
+  getTrendingGames: ApiFunction
   on: ApiListenerFunction
   off: ApiListenerFunction
 }
@@ -34,6 +35,7 @@ export const api: ApiFunctions = {
   getFilePath: (appId: number) => ipcRenderer.invoke('get-file-path', appId),
   setFilePath: (appId: number, filePath: string) =>
     ipcRenderer.invoke('set-file-path', appId, filePath),
+  getTrendingGames: () => ipcRenderer.invoke('get-trending-games'),
   on: (channel: string, callback: (...args: any[]) => void) => ipcRenderer.on(channel, callback),
   off: (channel: string, callback: (...args: any[]) => void) =>
     ipcRenderer.removeListener(channel, callback)

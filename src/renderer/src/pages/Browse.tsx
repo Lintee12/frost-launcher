@@ -1,13 +1,11 @@
-import Library from '@renderer/components/full/Library'
 import TrendingGames from '@renderer/components/full/TrendingGames'
 
-function Index() {
+function Browse() {
   return (
     <div className="flex flex-col gap-8">
       <TrendingGames></TrendingGames>
-      <Library></Library>
     </div>
   )
 }
 
-export default Index
+export default Browse

@@ -7,6 +7,7 @@ import Search from './pages/Search'
 import AppBar from './components/full/AppBar'
 import GameDetails from './pages/GameDetails'
 import Library from './components/full//Library'
+import Browse from './pages/browse'
 
 const capitalize = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -47,6 +48,7 @@ function App(): JSX.Element {
               <Route path="/search/:query" element={<Search />} />
               <Route path="/details/:id" element={<GameDetails />} />
               <Route path="/library" element={<Library />} />
+              <Route path="/browse" element={<Browse />} />
             </Routes>
           </main>
         </div>

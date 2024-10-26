@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png'
-import steamSearch, { getSteamGameInfo } from './integrations/steamApi'
+import steamSearch, { getSteamGameInfo, getTrendingGames } from './integrations/steamApi'
 import { Game } from '@types'
 import {
   addToLibrary,
@@ -136,4 +136,8 @@ ipcMain.handle('get-file-path', (_event, appId: number) => {
 
 ipcMain.handle('set-file-path', (_event, appId: number, filePath: string) => {
   return setGamePath(appId, filePath)
+})
+
+ipcMain.handle('get-trending-games', () => {
+  return getTrendingGames()
 })
