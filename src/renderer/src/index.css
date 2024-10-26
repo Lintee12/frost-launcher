@@ -35,3 +35,47 @@ span {
 .appBar {
   -webkit-app-region: drag;
 }
+
+.sys_req {
+  @apply text-zinc-400;
+  strong {
+    @apply text-base text-zinc-300;
+  }
+
+  .bb_ul {
+    strong {
+      @apply text-sm;
+    }
+  }
+}
+
+.bb_ul {
+  list-style-type: disc;
+
+  @apply ml-5 flex flex-col gap-1;
+}
+
+video {
+  @apply rounded-md;
+}
+
+.details_game {
+  img {
+    @apply rounded-md min-w-[100%];
+  }
+  p {
+    @apply mb-2;
+  }
+
+  * {
+    margin: 0;
+  }
+  .bb_ul {
+    @apply ml-5;
+  }
+  br {
+    display: none;
+  }
+
+  @apply flex flex-col gap-4;
+}

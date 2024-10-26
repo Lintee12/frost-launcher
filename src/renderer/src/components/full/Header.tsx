@@ -21,8 +21,9 @@ function Header({ route = 'Home' }: { route: string }) {
         <h1 className="whitespace-nowrap select-none text-lg mb-0">{route}</h1>
       </div>
       <div className="w-full"></div>
-      <form onSubmit={(e) => handleSearch(e)}>
+      <form onSubmit={(e) => handleSearch(e)} className="w-full max-w-[256px]">
         <InputComponent
+          className="w-full"
           placeholder="Search..."
           before={<Search width={16} height={16} />}
           onChange={(e) => setSearchValue(e.target.value)}

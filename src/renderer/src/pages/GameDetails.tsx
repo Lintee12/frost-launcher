@@ -118,7 +118,7 @@ function GameDetails() {
               ></img>
             </div>
           </div>
-          <div className="flex flex-row gap-2 p-2 -mx-4 border-b-[1px] bg-zinc-800 border-zinc-600 items-center">
+          <div className="flex flex-row gap-2 p-2 -mx-4 border-b-[1px] bg-zinc-800 border-zinc-700 items-center sticky top-[-16px]">
             {inLibrary && (
               <>
                 <button
@@ -173,14 +173,43 @@ function GameDetails() {
             )}
           </div>
           {/* Details */}
-          <div className="max-w-[1000px] mx-auto pt-4">
-            <h3>Trailer</h3>
-            {details.movies && (
-              <video autoPlay={false} controls>
-                <source src={details?.movies[0].mp4.max} type="video/mp4"></source>
-              </video>
-            )}
-            {/* <p dangerouslySetInnerHTML={{ __html: details.detailed_description }}></p> */}
+          <div className="flex flex-row w-full -mb-4">
+            <div className="max-w-[720px] mx-auto pt-6 pr-4 pb-4">
+              {details.movies && (
+                <video autoPlay={false} controls>
+                  <source src={details?.movies[0].mp4.max} type="video/mp4"></source>
+                </video>
+              )}
+              <p
+                className="mt-4 details_game"
+                dangerouslySetInnerHTML={{ __html: details.detailed_description }}
+              ></p>
+            </div>
+            <div className="flex flex-col gap-2 border-l-zinc-700 border-l-[1px] w-full max-w-[278px] min-w-[256px] p-2">
+              <div className="flex flex-col border-b-[1px] border-b-zinc-700">
+                <h3 className="text-xl">Published By</h3>
+                <p className="text-sm text-zinc-400">{details.publishers}</p>
+              </div>
+              <div className="flex flex-col border-b-[1px] border-b-zinc-700">
+                <h3 className="text-xl">Release Date</h3>
+                <p className="text-sm text-zinc-400">{details.release_date.date}</p>
+              </div>
+              <div className="flex flex-col border-b-[1px] border-b-zinc-700">
+                <h3 className="text-xl">Description</h3>
+                <p className="text-sm text-zinc-400">{details.short_description}</p>
+              </div>
+              <div className="flex flex-col border-b-[1px] border-b-zinc-700">
+                <h3 className="text-xl">System Requirements</h3>
+                <p
+                  className="text-sm font-normal sys_req"
+                  dangerouslySetInnerHTML={{ __html: details.pc_requirements.minimum }}
+                ></p>
+                <p
+                  className="text-sm font-normal sys_req"
+                  dangerouslySetInnerHTML={{ __html: details.pc_requirements.recommended }}
+                ></p>
+              </div>
+            </div>
           </div>
         </>
       ) : (
