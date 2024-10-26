@@ -2,8 +2,8 @@ import { Game } from '@types'
 import { motion } from 'framer-motion'
 import { File, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import InputComponent from './InputComponent'
-import ButtonComponent from './ButtonComponent'
+import InputComponent from '../styled/InputComponent'
+import ButtonComponent from '../styled/ButtonComponent'
 
 function GameConfig({ onClose, gameInfo }: { onClose: () => void; gameInfo: Game }) {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -78,6 +78,18 @@ function GameConfig({ onClose, gameInfo }: { onClose: () => void; gameInfo: Game
                   </span>
                 </ButtonComponent>
               </div>
+            </div>
+            <div className="flex flex-col gap-1 p-3">
+              <span>Danger Zone</span>
+              <button
+                onClick={async () => {
+                  window.api.saveLibrary(gameInfo)
+                  onClose()
+                }}
+                className={`font-semibold min-w-[115px] min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center justify-center bg-red-700 hover:bg-red-800 text-white p-3 rounded-md active:scale-[0.98] duration-100 transition-all will-change-transform`}
+              >
+                Remove From Library
+              </button>
             </div>
           </div>
         </motion.div>

@@ -1,7 +1,7 @@
 import { ChevronLeft, Search } from 'lucide-react'
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import InputComponent from './InputComponent'
+import InputComponent from '../styled/InputComponent'
 
 function Header({ route = 'Home' }: { route: string }) {
   const navigate = useNavigate()

@@ -1,6 +1,6 @@
 import { spawn, ChildProcess } from 'child_process'
 import { BrowserWindow } from 'electron'
-import { getTimePlayed, setTimePlayed } from './save/saveData'
+import { getTimePlayed, setTimePlayed } from '../save/saveData'
 
 let gameProcess: ChildProcess | null = null
 let timer: number = 0

@@ -1,12 +1,12 @@
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Index from './pages/Index'
-import Nav from './components/Nav'
+import Nav from './components/full//Nav'
 import { useEffect, useState } from 'react'
-import Header from './components/Header'
+import Header from './components/full/Header'
 import Search from './pages/Search'
-import AppBar from './components/AppBar'
+import AppBar from './components/full/AppBar'
 import GameDetails from './pages/GameDetails'
-import Library from './components/Library'
+import Library from './components/full//Library'
 
 const capitalize = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)

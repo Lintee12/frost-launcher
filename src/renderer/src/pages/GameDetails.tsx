@@ -3,8 +3,8 @@ import { Plus, X } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { SteamAppDetails } from '@types'
 import { formatPlaytime, steamUrlBuilder } from '@shared'
-import Portal from '@renderer/components/Portal/Portal'
-import GameConfig from '@renderer/components/GameConfig'
+import Portal from '@renderer/components/portal/Portal'
+import GameConfig from '@renderer/components/full/GameConfig'
 
 function GameDetails() {
   const params = useParams()
@@ -88,8 +88,10 @@ function GameDetails() {
     fetchData()
   }, [params.id])
 
-  const handleShowConfig = () => {
+  const handleShowConfig = async () => {
     setShowGameConfig(!showGameConfig)
+    const isInLibrary = await window.api.isInLibrary(appId)
+    setInLibrary(isInLibrary)
   }
 
   if (loading) return <div>Loading...</div>
@@ -164,7 +166,7 @@ function GameDetails() {
                   window.api.saveLibrary({ name: details.name, steam_appid: details.steam_appid })
                   setInLibrary(!inLibrary)
                 }}
-                className="min-w-fit whitespace-nowrap min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center bg-zinc-900/50 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform"
+                className="ml-auto min-w-fit whitespace-nowrap min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center bg-zinc-900/50 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform"
               >
                 <Plus></Plus>Add To Library
               </button>

@@ -1,5 +1,5 @@
-import GameComponent from '@renderer/components/GameComponent'
-import GameGrid from '@renderer/components/GameGrid'
+import GameComponent from '@renderer/components/full/GameComponent'
+import GameGrid from '@renderer/components/full/GameGrid'
 import { Game } from '@types'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'

@@ -1,4 +1,4 @@
-import Library from '@renderer/components/Library'
+import Library from '@renderer/components/full/Library'
 
 function Index() {
   return (

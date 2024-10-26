@@ -1,5 +1,5 @@
 import { HomeIcon, LayoutGrid, Library, Settings } from 'lucide-react'
-import IconLink from './IconLink'
+import IconLink from '../styled/IconLink'
 
 interface Props {}
 
