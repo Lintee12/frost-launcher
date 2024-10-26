@@ -1,6 +1,6 @@
-# game-launcher-v4
+# Frost Launcher
 
-An Electron application with React and TypeScript
+Game Launcher that allows you to easily manage all your non-steam games
 
 ## Recommended IDE Setup
 
