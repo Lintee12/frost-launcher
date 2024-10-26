@@ -1,5 +1,5 @@
 import { ChevronLeft, Search } from 'lucide-react'
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import InputComponent from './InputComponent'
 
