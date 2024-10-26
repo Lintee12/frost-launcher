@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { app } from 'electron'
 import { Game } from '@types'
+import { getGameData, setGameData } from '../helpers/gameData'
 
 const userDataPath = app.getPath('userData')
 const libraryFilePath = path.join(userDataPath, 'library.json')
@@ -33,4 +34,27 @@ export function getLibrary(): Game[] {
 export function isInLibrary(appid: number): boolean {
   const library = getLibrary()
   return library.some((existingGame) => existingGame.steam_appid === appid)
+}
+
+//game data
+export function getTimePlayed(appId: number): number {
+  const gameData = getGameData(appId)
+  return gameData ? gameData.seconds : 0
+}
+
+export function getGamePath(appId: number): string {
+  const gameData = getGameData(appId)
+  return gameData ? gameData.execPath : ''
+}
+
+export function setTimePlayed(appId: number, seconds: number): void {
+  const gameData = getGameData(appId) || { appId, execPath: '', seconds: 0 }
+  gameData.seconds = seconds
+  setGameData(gameData)
+}
+
+export function setGamePath(appId: number, execPath: string): void {
+  const gameData = getGameData(appId) || { appId, execPath: '', seconds: 0 }
+  gameData.execPath = execPath
+  setGameData(gameData)
 }

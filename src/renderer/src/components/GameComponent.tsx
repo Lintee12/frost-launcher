@@ -23,7 +23,7 @@ function GameComponent({ details }: { details: Game }) {
     <Link
       draggable="false"
       to={`/details/${details.steam_appid}`}
-      className="border-[1px] border-zinc-700 rounded-md relative aspect-[92/43] overflow-hidden group"
+      className="border-[1px] border-zinc-700 rounded-md relative aspect-[92/43] overflow-hidden group shadow-md shadow-black/50"
     >
       <img
         src={steamUrlBuilder.library(details.steam_appid.toString())}

@@ -19,17 +19,20 @@ function Library() {
     fetchLibrary()
   }, [])
 
-  if (library.length > 0) {
-    return (
-      <GameGrid>
-        {library.map((result, index) => (
-          <GameComponent details={result} key={index} />
-        ))}
-      </GameGrid>
-    )
-  } else {
-    return <span className="text-zinc-400">Empty...</span>
-  }
+  return (
+    <div className="flex flex-col">
+      <h3>Your Library</h3>
+      {library.length > 0 ? (
+        <GameGrid>
+          {library.map((result, index) => (
+            <GameComponent details={result} key={index} />
+          ))}
+        </GameGrid>
+      ) : (
+        <span className="text-zinc-400">Empty...</span>
+      )}
+    </div>
+  )
 }
 
 export default Library

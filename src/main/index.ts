@@ -4,7 +4,14 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png'
 import steamSearch, { getSteamGameInfo } from './steamApi'
 import { Game } from '@types'
-import { addToLibrary, getLibrary, isInLibrary } from './SaveData'
+import {
+  addToLibrary,
+  getGamePath,
+  getLibrary,
+  getTimePlayed,
+  isInLibrary,
+  setGamePath
+} from './save/saveData'
 import { closeGame, isGameRunning, launchGame } from './process'
 
 let mainWindow: BrowserWindow
@@ -124,8 +131,8 @@ ipcMain.handle('is-in-library', (_event, appId: number) => {
   return isInLibrary(appId)
 })
 
-ipcMain.handle('launch-game', async (_, gamePath: string) => {
-  launchGame(gamePath, mainWindow)
+ipcMain.handle('launch-game', async (_, gamePath: string, appId: number) => {
+  launchGame(gamePath, mainWindow, appId)
 })
 
 ipcMain.handle('close-game', () => {
@@ -134,4 +141,16 @@ ipcMain.handle('close-game', () => {
 
 ipcMain.handle('is-game-running', () => {
   return isGameRunning()
+})
+
+ipcMain.handle('get-time-played', (_event, appId: number) => {
+  return getTimePlayed(appId)
+})
+
+ipcMain.handle('get-file-path', (_event, appId: number) => {
+  return getGamePath(appId)
+})
+
+ipcMain.handle('set-file-path', (_event, appId: number, filePath: string) => {
+  return setGamePath(appId, filePath)
 })

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Pause, Play, Plus, X } from 'lucide-react'
+import { Plus, X } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { SteamAppDetails } from '@types'
-import { steamUrlBuilder } from '@shared'
+import { formatPlaytime, steamUrlBuilder } from '@shared'
+import Portal from '@renderer/components/Portal/Portal'
+import GameConfig from '@renderer/components/GameConfig'
 
 function GameDetails() {
   const params = useParams()
@@ -12,12 +14,14 @@ function GameDetails() {
   const [error, setError] = useState<string | null>(null)
   const [inLibrary, setInLibrary] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [timePlayed, setTimePlayed] = useState<number>(0)
+  const [showGameConfig, setShowGameConfig] = useState<boolean>(false)
 
   const startGame = async () => {
     try {
-      await window.api.launchGame(
-        'E:\\Evan\\Dev\\game-launcher-v4\\dist\\win-unpacked\\game-launcher-v.exe'
-      )
+      const gameExec = await window.api.getFilePath(appId)
+      console.log(`launching ${gameExec}`)
+      await window.api.launchGame(gameExec, appId)
       setIsPlaying(true)
     } catch (error) {
       console.error(error)
@@ -27,11 +31,30 @@ function GameDetails() {
 
   const stopGame = async () => {
     await window.api.closeGame()
-    setIsPlaying(false)
   }
 
   useEffect(() => {
-    const handleGameStopped = () => setIsPlaying(false)
+    async function doStuff() {
+      const totalTimePlayed = await window.api.getTimePlayed(appId)
+      console.log(appId, totalTimePlayed)
+      setTimePlayed(totalTimePlayed)
+    }
+    doStuff()
+  }, [isPlaying])
+
+  useEffect(() => {
+    async function doStuff() {
+      const totalTimePlayed = await window.api.getTimePlayed(appId)
+      console.log(appId, totalTimePlayed)
+      setTimePlayed(totalTimePlayed)
+    }
+    doStuff()
+  })
+
+  useEffect(() => {
+    const handleGameStopped = async () => {
+      setIsPlaying(false)
+    }
     window.api.isGameRunning().then(setIsPlaying)
 
     window.api.on('game-stopped', handleGameStopped)
@@ -65,6 +88,10 @@ function GameDetails() {
     fetchData()
   }, [params.id])
 
+  const handleShowConfig = () => {
+    setShowGameConfig(!showGameConfig)
+  }
+
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
 
@@ -87,43 +114,61 @@ function GameDetails() {
                 alt={details.name}
                 src={steamUrlBuilder.logo(appId.toString())}
               ></img>
-              <div className="w-full"></div>
-              <button
-                className={`font-semibold mr-2 min-w-[115px] h-fit whitespace-nowrap text-sm sm:text-base flex gap-1 items-center justify-center ${isPlaying ? 'bg-zinc-500 hover:bg-red-800' : 'bg-blue-600 hover:bg-blue-800'} text-white p-3 rounded-md active:scale-[0.98] duration-100 transition-all will-change-transform`}
-                onClick={() => {
-                  if (isPlaying) {
-                    stopGame()
-                  } else {
-                    startGame()
-                  }
-                }}
-              >
-                {!isPlaying ? (
-                  <>Launch Game</>
-                ) : (
-                  <>
-                    <X></X>Running
-                  </>
+            </div>
+          </div>
+          <div className="flex flex-row gap-2 p-2 -mx-4 border-b-[1px] bg-zinc-800 border-zinc-600 items-center">
+            {inLibrary && (
+              <>
+                <button
+                  className={`font-semibold min-w-[115px] min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center justify-center ${isPlaying ? 'bg-zinc-700 hover:bg-red-800' : 'bg-blue-600 hover:bg-blue-800'} text-white p-3 rounded-md active:scale-[0.98] duration-100 transition-all will-change-transform`}
+                  onClick={() => {
+                    if (isPlaying) {
+                      stopGame()
+                    } else {
+                      startGame()
+                    }
+                  }}
+                >
+                  {!isPlaying ? (
+                    <>Launch Game</>
+                  ) : (
+                    <>
+                      <X></X>Running
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={handleShowConfig}
+                  className={`min-w-fit min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center justify-center bg-zinc-900/50 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform`}
+                >
+                  Configure
+                </button>
+                {showGameConfig && (
+                  <Portal>
+                    <GameConfig
+                      gameInfo={{ name: details.name, steam_appid: details.steam_appid }}
+                      onClose={handleShowConfig}
+                    ></GameConfig>
+                  </Portal>
                 )}
-              </button>
+              </>
+            )}
+            <span className="text-sm">
+              {timePlayed <= 0
+                ? 'You have not played this game.'
+                : `Time Played: ${formatPlaytime(timePlayed)}`}
+            </span>
+            {!inLibrary && (
               <button
                 onClick={() => {
                   window.api.saveLibrary({ name: details.name, steam_appid: details.steam_appid })
                   setInLibrary(!inLibrary)
                 }}
-                className=" mr-8 min-w-[156px] h-fit whitespace-nowrap text-sm sm:text-base flex gap-1 items-center justify-center bg-zinc-900/50 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform"
+                className="min-w-fit whitespace-nowrap min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center bg-zinc-900/50 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform"
               >
-                {!inLibrary ? (
-                  <>
-                    <Plus></Plus>Add To Library
-                  </>
-                ) : (
-                  <>
-                    <X></X>Remove
-                  </>
-                )}
+                <Plus></Plus>Add To Library
               </button>
-            </div>
+            )}
           </div>
           {/* Details */}
           <div className="max-w-[1000px] mx-auto pt-4">
