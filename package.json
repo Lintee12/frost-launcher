@@ -1,6 +1,6 @@
 {
   "name": "frost-launcher",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Game Launcher that allows you to easily manage all your non-steam games",
   "main": "./out/main/index.js",
   "author": "example.com",
