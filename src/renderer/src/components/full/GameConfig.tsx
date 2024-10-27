@@ -37,9 +37,9 @@ function GameConfig({ onClose, gameInfo }: { onClose: () => void; gameInfo: Game
 
   return (
     <>
-      <div onClick={() => onClose()} className="fixed inset-0 bg-black/50"></div>
+      <div onClick={() => onClose()} className="fixed inset-0 bg-black/50 z-20"></div>
 
-      <div className="fixed inset-0 pointer-events-none flex items-center justify-center">
+      <div className="fixed inset-0 pointer-events-none flex items-center justify-center z-20">
         <motion.div
           initial={{ scale: 0.0 }}
           animate={{ scale: 1.0 }}

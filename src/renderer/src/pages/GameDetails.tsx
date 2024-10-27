@@ -118,7 +118,7 @@ function GameDetails() {
               ></img>
             </div>
           </div>
-          <div className="flex flex-row gap-2 p-2 -mx-4 border-b-[1px] bg-zinc-800 border-zinc-700 items-center sticky top-[-16px]">
+          <div className="flex flex-row gap-2 p-2 -mx-4 border-b-[1px] bg-zinc-800 border-zinc-700 items-center sticky top-[-16px] z-10">
             {inLibrary && (
               <>
                 <button
