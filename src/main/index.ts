@@ -1,5 +1,5 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import { app, shell, BrowserWindow, ipcMain, Tray, Menu } from 'electron'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png'
 import steamSearch, { getSteamGameInfo, getTrendingGames } from './integrations/steamApi'
@@ -15,6 +15,7 @@ import {
 import { closeGame, isGameRunning, launchGame } from './helpers/process'
 
 let mainWindow: BrowserWindow
+let tray: Tray
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -41,8 +42,6 @@ function createWindow(): void {
     return { action: 'deny' }
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
@@ -67,7 +66,7 @@ function createWindow(): void {
 
   ipcMain.on('close-window', () => {
     if (mainWindow) {
-      mainWindow.close()
+      mainWindow.hide()
     }
   })
 }
@@ -79,14 +78,44 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  ipcMain.on('ping', () => console.log('pong'))
-
   createWindow()
+
+  console.log(__dirname)
+  tray = new Tray(path.join(__dirname, '../../resources/icon.png'))
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Open Frost', click: () => mainWindow.show() },
+    {
+      label: 'Quit',
+      click: () => app.quit()
+    }
+  ])
+  tray.setToolTip('Frost')
+  tray.setContextMenu(contextMenu)
+
+  tray.on('click', () => {
+    if (mainWindow.isVisible()) {
+      mainWindow.hide()
+    } else {
+      mainWindow.show()
+      mainWindow.focus()
+    }
+  })
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
+
+if (!app.requestSingleInstanceLock()) {
+  app.quit()
+} else {
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.show()
+    }
+  })
+}
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
