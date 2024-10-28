@@ -185,7 +185,7 @@ function GameDetails() {
                 dangerouslySetInnerHTML={{ __html: details.detailed_description }}
               ></p>
             </div>
-            <div className="flex flex-col gap-2 border-l-zinc-700 border-l-[1px] w-full max-w-[278px] min-w-[256px] p-2">
+            <div className="flex flex-col gap-2 -mr-4 border-l-zinc-700 border-l-[1px] w-full max-w-[278px] min-w-[256px] p-2">
               <div className="flex flex-col border-b-[1px] border-b-zinc-700">
                 <h3 className="text-xl">Published By</h3>
                 <p className="text-sm text-zinc-400">{details.publishers}</p>
