@@ -3,7 +3,7 @@ import { Plus, X } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { SteamAppDetails } from '@types'
 import { formatPlaytime, steamUrlBuilder } from '@shared'
-import Portal from '@renderer/components/portal/Portal'
+import Portal from '@renderer/components/Portal/Portal'
 import GameConfig from '@renderer/components/full/GameConfig'
 
 function GameDetails() {
