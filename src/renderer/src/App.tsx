@@ -7,7 +7,7 @@ import Search from './pages/Search'
 import AppBar from './components/full/AppBar'
 import GameDetails from './pages/GameDetails'
 import Library from './components/full//Library'
-import Browse from './pages/browse'
+import Browse from './pages/Browse'
 
 const capitalize = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
