@@ -4,6 +4,7 @@ import { Game } from '@types'
 import { useEffect, useState } from 'react'
 
 function Library() {
+  const [loading, setLoading] = useState(true)
   const [library, setLibrary] = useState<Game[]>([])
 
   useEffect(() => {
@@ -11,6 +12,7 @@ function Library() {
       try {
         const games = await window.api.getLibrary()
         setLibrary(games || [])
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching library:', error)
       }
@@ -28,6 +30,8 @@ function Library() {
             <GameComponent details={result} key={index} />
           ))}
         </GameGrid>
+      ) : loading ? (
+        <span className="text-zinc-400">Loading...</span>
       ) : (
         <span className="text-zinc-400">Empty...</span>
       )}

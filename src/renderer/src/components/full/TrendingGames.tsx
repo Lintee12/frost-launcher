@@ -4,6 +4,7 @@ import { Game } from '@types'
 import { useEffect, useState } from 'react'
 
 function TrendingGames() {
+  const [loading, setLoading] = useState(true)
   const [library, setLibrary] = useState<Game[]>([])
 
   useEffect(() => {
@@ -11,6 +12,7 @@ function TrendingGames() {
       try {
         const games = await window.api.getTrendingGames()
         setLibrary(games || [])
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching trending games:', error)
       }
@@ -28,6 +30,8 @@ function TrendingGames() {
             <GameComponent details={result} key={index} />
           ))}
         </GameGrid>
+      ) : loading ? (
+        <span className="text-zinc-400">Loading...</span>
       ) : (
         <span className="text-zinc-400">Empty...</span>
       )}
