@@ -47,7 +47,7 @@ function GameConfig({ onClose, gameInfo }: { onClose: () => void; gameInfo: Game
           style={{ transformOrigin: 'center' }}
           className="w-full max-w-[720px]"
         >
-          <div className="pointer-events-auto rounded-md flex flex-col bg-zinc-900 text-zinc-300">
+          <div className="pointer-events-auto rounded-md flex flex-col bg-zinc-950 text-zinc-300">
             <div className="flex justify-between items-center p-3 border-b-zinc-700 border-b-[1px]">
               <h3 className="mb-0 text-xl">{gameInfo.name}</h3>
               <button onClick={onClose}>

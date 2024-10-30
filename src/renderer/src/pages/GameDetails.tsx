@@ -122,7 +122,7 @@ function GameDetails() {
             {inLibrary && (
               <>
                 <button
-                  className={`font-semibold min-w-[115px] min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center justify-center ${isPlaying ? 'bg-zinc-700 hover:bg-red-800' : 'bg-blue-600 hover:bg-blue-800'} text-white p-3 rounded-md active:scale-[0.98] duration-100 transition-all will-change-transform`}
+                  className={`font-semibold min-w-[115px] min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center justify-center ${isPlaying ? 'bg-zinc-500 hover:bg-red-800' : 'bg-blue-600 hover:bg-blue-800'} text-white p-3 rounded-md active:scale-[0.98] duration-100 transition-all will-change-transform`}
                   onClick={() => {
                     if (isPlaying) {
                       stopGame()
@@ -141,7 +141,7 @@ function GameDetails() {
                 </button>
                 <button
                   onClick={handleShowConfig}
-                  className={`min-w-fit min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center justify-center bg-zinc-900/50 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform`}
+                  className={`min-w-fit min-h-[44px] max-h-[44px] text-sm flex gap-1 items-center justify-center bg-zinc-900 p-3 rounded-md border-zinc-700 border-[1px] hover:border-zinc-400 active:scale-[0.98] duration-100 transition-all will-change-transform`}
                 >
                   Configure
                 </button>
