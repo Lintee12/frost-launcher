@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frost-win
-          path: dis/win-unpacked
+          path: dist/win-unpacked
