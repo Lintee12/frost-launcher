@@ -1,6 +1,7 @@
 import { spawn, ChildProcess } from 'child_process'
 import { BrowserWindow } from 'electron'
 import { getTimePlayed, setTimePlayed } from '../save/saveData'
+import path from 'path'
 
 let gameProcess: ChildProcess | null = null
 let timer: number = 0
@@ -12,7 +13,7 @@ export function launchGame(gamePath: string, mainWindow: BrowserWindow, appId: n
     return
   }
 
-  gameProcess = spawn(gamePath)
+  gameProcess = spawn(gamePath, [], { cwd: path.dirname(gamePath) })
   currentAppId = appId
   timer = getTimePlayed(appId)
 
