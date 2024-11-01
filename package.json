@@ -1,6 +1,6 @@
 {
   "name": "frost-launcher",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Game Launcher that allows you to easily manage all your non-steam games",
   "main": "./out/main/index.js",
   "author": "example.com",
@@ -18,7 +18,8 @@
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
-    "build:linux": "electron-vite build && electron-builder --linux"
+    "build:linux": "electron-vite build && electron-builder --linux",
+    "update": "node update.js && npm run build:win"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
